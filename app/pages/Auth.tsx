@@ -2,8 +2,12 @@ import React, { useState } from 'react'
 import Checkbox from 'expo-checkbox'
 import { Alert, StyleSheet, View, TextInput, Pressable, Text, ActivityIndicator } from 'react-native'
 import { supabase } from '../lib/supabase'
+import { useRouter } from "expo-router";
 
 export default function Auth() {
+  // For redirects
+  const router = useRouter();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -15,10 +19,11 @@ export default function Auth() {
       email: email,
       password: password,
     })
-
-    if (error) Alert.alert(error.message)
-    setLoading(false)
-    
+    if (error) Alert.alert(error.message) 
+    else {
+      setLoading(false);
+      router.replace("(tabs)");
+    }
   }
 
   async function signUpWithEmail() {
@@ -90,10 +95,11 @@ export default function Auth() {
             style={styles.btnText}
             >
             
-            Sign In</Text>
+            Sign In
             { loading && 
             
             <ActivityIndicator size={15} /> }
+            </Text>
         </Pressable>
       </View>
       <View style={styles.verticallySpaced}>
@@ -104,10 +110,11 @@ export default function Auth() {
             <Text
             style={styles.btnText}
             >
-            Sign Up</Text>
-            { loading && 
-            
-            <ActivityIndicator size={15} /> }
+              Sign Up
+              { loading && 
+              
+              <ActivityIndicator size={15} /> }
+            </Text>
         </Pressable>
       </View>
     </View>

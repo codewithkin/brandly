@@ -4,8 +4,12 @@ import { supabase } from './lib/supabase'
 import Auth from './pages/Auth'
 import { View, Text } from 'react-native'
 import { Session } from '@supabase/supabase-js'
+import { useRouter } from "expo-router";
+
 
 export default function App() {
+  const router = useRouter();
+
   const [session, setSession] = useState<Session | null>(null)
 
   useEffect(() => {
@@ -18,5 +22,9 @@ export default function App() {
     })
   }, [])
 
-  return <Auth /> 
+  if(session === null){
+    return <Auth /> 
+  } else {
+    router.replace("(tabs)");
+  }
 }
