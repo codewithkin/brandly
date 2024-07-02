@@ -34,9 +34,6 @@ export default function Auth() {
     } = await supabase.auth.signUp({
       email: email,
       password: password,
-      options: {
-        emailRedirectTo: 'https://wyveninc.com',
-      },
     })
 
     if (error) Alert.alert(error.message)
