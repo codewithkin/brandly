@@ -24,7 +24,7 @@ export default function TabLayout() {
           title: 'Home',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Feather name="home" size={24} color="black" />
+            <Feather name="home" size={24} color="darkgray" />
           ),
         }}
       />
@@ -35,7 +35,7 @@ export default function TabLayout() {
           title: 'Chat',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbubbles-outline" size={24} color="black" />
+            <Ionicons name="chatbubbles-outline" size={24} color="darkgray" />
           ),
         }}
       />
@@ -46,7 +46,7 @@ export default function TabLayout() {
           title: 'Discover',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <SimpleLineIcons name="globe" size={24} color="black" />
+            <SimpleLineIcons name="globe" size={24} color="darkgray" />
           ),
         }}
       />

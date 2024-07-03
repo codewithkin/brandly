@@ -1,11 +1,16 @@
 import { StyleSheet, View, Text } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
-import CircularProgress from 'react-native-circular-progress-indicator';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import Swiper from 'react-native-swiper';
+
 
 export default function TabOneScreen() {
+  const [fill, setFill] = useState(0);
+
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -36,30 +41,82 @@ export default function TabOneScreen() {
           </View>
       </View>
 
-      <View
-      style={styles.statsCards}
+      <Swiper
+        style={styles.wrapper}
+        showsButtons={false}
+        autoplay
+        autoplayTimeout={5} // Change slide every 5 seconds
+        loop
       >
         <View 
           style={styles.card}
         >
-          <Text>New users</Text>
-          <CircularProgress
-            value={20}
-            radius={120}
-            duration={1000}
-            progressValueColor={'lightblue'}
-            maxValue={200}
-            title={'%'}
-            titleColor={'lightblue'}
-            titleStyle={{fontWeight: 'semibold'}}
-          />
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 17,
+            }}
+          >New users</Text>
+          <View
+          style={styles.progressBar}>
+            <AnimatedCircularProgress
+            size={50}
+            width={5}
+            fill={fill}
+            tintColor="#00e0ff"
+            backgroundColor="lightgray">
+            {
+              (fill) => (
+                <Text
+                  style={{
+                    color: "white",
+                    fontWeight: "semibold",
+                    fontSize: 20,
+                  }}
+                >
+                  { fill }
+                </Text>
+              )
+            }
+          </AnimatedCircularProgress>
+          </View>
         </View>
-      </View>
+          <LinearGradient
+          colors={['#184e77', '#1e6091', '#1a759f']}
+          style={[styles.card, {
+            width: '100%'
+          }]}>
+            <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 17,
+            }}
+            >Hello, World!</Text>
+        </LinearGradient>
+        <View 
+          style={[styles.card, {
+            width: '100%',
+          }]}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              fontSize: 17,
+            }}
+          >New users</Text>
+          </View>
+      </Swiper>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    height: 'auto'
+  },
   container: {
     flex: 1,
     paddingVertical: 10,
@@ -70,7 +127,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
   },
   gradient: {
     position: "absolute",
@@ -80,7 +138,7 @@ const styles = StyleSheet.create({
     top: 0,
   },
   brand: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "900",
   },
   brandContainer: {
@@ -100,15 +158,22 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   card: {
-    padding: 10,
+    padding: 20,
     borderRadius: 15,
     shadowColor: "black",
-    width: 200,
+    backgroundColor: "#023047",
+    width: '100%',
+    height: 150,
     shadowOpacity: 0.6,
     shadowRadius: 4,
     shadowOffset: {
       width: -2,
       height: 4,
     },
+  },
+  progressBar: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
 });
