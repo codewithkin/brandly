@@ -11,7 +11,7 @@ export default function App() {
   const router = useRouter();
 
   const [session, setSession] = useState<Session | null>(null)
-
+/*
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -24,7 +24,7 @@ export default function App() {
 
   if(session === null){
     return <Auth /> 
-  } else {
+  } else { */
     router.replace("(tabs)");
-  }
+  //}
 }

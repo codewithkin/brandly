@@ -1,15 +1,20 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { LinearGradient } from "expo-linear-gradient";
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import Swiper from 'react-native-swiper';
-
+import { FAB } from "react-native-paper";
+import NewPostModal from "../components/NewPostModal";
+import Posts from "../pages/Posts";
 
 export default function TabOneScreen() {
   const [fill, setFill] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
 
   return (
     <View style={styles.container}>
@@ -41,13 +46,9 @@ export default function TabOneScreen() {
           </View>
       </View>
 
-      <Swiper
-        style={styles.wrapper}
-        showsButtons={false}
-        autoplay
-        autoplayTimeout={5} // Change slide every 5 seconds
-        loop
-      >
+      {/*
+      <FlatList
+      horizontal={true}>
         <View 
           style={styles.card}
         >
@@ -108,15 +109,27 @@ export default function TabOneScreen() {
             }}
           >New users</Text>
           </View>
-      </Swiper>
+      </FlatList>
+      */}
+
+      <Posts />
+      <NewPostModal 
+      hideModal={hideModal} 
+      visible={visible} 
+      />
+
+
+      <FAB
+        icon="plus"
+        label="New Post"
+        style={styles.fab}
+        onPress={showModal}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    height: 'auto'
-  },
   container: {
     flex: 1,
     paddingVertical: 10,
@@ -136,6 +149,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
+  },
+  fab: {
+    position: "absolute",
+    right: 20,
+    bottom: 50,
   },
   brand: {
     fontSize: 22,
