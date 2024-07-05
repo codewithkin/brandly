@@ -23,6 +23,7 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
     
         supabase.auth.onAuthStateChange((_event, session) => {
           setSession(session)
+          console.log(session);
         })
 
         console.log(session);
@@ -31,17 +32,13 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
     async function createNewPost() {
         const { error } = await supabase
         .from('posts')
-        .insert({ id: 1, name: 'Denmark' })
+        .insert({ profile: {username: session?.user.email, profileImage: session?.user.email }, content })
     
         if(error) {
             console.log(error);
             Alert.alert(error.message);
         }
-        else {
-            console.log("Success!");
-        }
     
-        return error;
     }
 
     return (
@@ -77,7 +74,7 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
                         mode="contained"
                         buttonColor="red"
                         textColor='white'
-                        onPress={() => createNewPost(  ) }
+                        onPress={() => createNewPost() }
                     >
                         Post
                     </Button>

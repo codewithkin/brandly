@@ -17,7 +17,6 @@ export type postData = {
 }
 
 export default function PostCard (data: postData) {
-    console.log(data)
     return (
         <Card
         elevation={3}

@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import Checkbox from 'expo-checkbox'
 import { Alert, StyleSheet, View, TextInput, Pressable, Text, ActivityIndicator } from 'react-native'
-import { supabase } from '../lib/supabase'
+import { supabase } from './lib/supabase';
 import { useRouter } from "expo-router";
 
 export default function Auth() {
   // For redirects
   const router = useRouter();
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
