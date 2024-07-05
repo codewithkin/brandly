@@ -8,6 +8,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { FAB } from "react-native-paper";
 import NewPostModal from "../components/NewPostModal";
 import Posts from "../pages/Posts";
+import PostActions from "../components/PostActions";
 
 export default function TabOneScreen() {
   const [fill, setFill] = useState(0);
@@ -114,17 +115,12 @@ export default function TabOneScreen() {
 
       <Posts />
       <NewPostModal 
-      hideModal={hideModal} 
-      visible={visible} 
+        hideModal={hideModal} 
+        visible={visible} 
       />
 
 
-      <FAB
-        icon="plus"
-        label="New Post"
-        style={styles.fab}
-        onPress={showModal}
-      />
+      <PostActions />
     </View>
   );
 }

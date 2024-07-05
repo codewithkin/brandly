@@ -1,31 +1,25 @@
-import 'react-native-url-polyfill/auto'
-import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
-import Auth from './Auth'
-import { View, Text } from 'react-native'
-import { Session } from '@supabase/supabase-js'
+import Auth from './Auth';
 import { useRouter } from "expo-router";
-
+import getData from './utils/Persistant Storage/getData';
+import { useState, useEffect } from "react";
 
 export default function App() {
   const router = useRouter();
-
-  const [session, setSession] = useState<Session | null>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session)
-    })
+    const getUser = async () => {
+      const user = await getData("authenticated");
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session)
-    })
+      if(user) setIsLoggedIn(true);
+    }
 
+    getUser();
   }, [])
 
-  if(!session){
-    return <Auth /> 
-  } else { 
+  if(isLoggedIn){
     router.replace("(tabs)");
+  } else { 
+    return <Auth /> 
   }
 }

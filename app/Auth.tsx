@@ -3,6 +3,7 @@ import Checkbox from 'expo-checkbox'
 import { Alert, StyleSheet, View, TextInput, Pressable, Text, ActivityIndicator } from 'react-native'
 import { supabase } from './lib/supabase';
 import { useRouter } from "expo-router";
+import storeData from './utils/Persistant Storage/storeData';
 
 export default function Auth() {
   // For redirects
@@ -21,6 +22,7 @@ export default function Auth() {
     if (error) Alert.alert(error.message) 
     else {
       setLoading(false);
+      storeData("authenticated", "true");
       router.replace("(tabs)");
     }
   }
@@ -42,89 +44,105 @@ export default function Auth() {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>
-            Welcome to Brandly
-        </Text>
-        <Text style={styles.description}>
-            Join Brandly and get this, this and this today for a reasonable price. 
-        </Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>
+              Welcome to Brandly
+          </Text>
+          <Text style={styles.description}>
+              Join Brandly and get this, this and this today for a reasonable price. 
+          </Text>
+        </View>
 
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <TextInput
-          onChangeText={setEmail}
-          value={email}
-          placeholder="email@address.com"
-          autoCapitalize={'none'}
-        style={[styles.input]}
-        selectionColor={'gray'}
-        />
-      </View>
-      <View style={styles.verticallySpaced}>
-        <TextInput
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={!showPassword}
-          placeholder="Password"
+      <View style={styles.form}>
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <TextInput
+            onChangeText={setEmail}
+            value={email}
+            placeholder="email@address.com"
+            autoCapitalize={'none'}
           style={[styles.input]}
           selectionColor={'gray'}
-          autoCapitalize={'none'}
-        />
-        <View
-        style={styles.flex}>
-         <Checkbox
-          value={showPassword}
-          onValueChange={setShowPassword}
-          color={showPassword ? '#4630EB' : undefined}
-        />
-        <Text>Show Password</Text>
+          />
         </View>
-        <Text
-        style={{ fontSize: 16 }}
-        >By signing up you agree to our <Text style={{ color: "blue", fontWeight: "500" }}>Terms of Service</Text> and <Text style={{ color: "blue", fontWeight: "500" }} >Privacy Policy</Text> </Text>
-      </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Pressable
-        style={[styles.btn]}
-        disabled={loading}
-        onPress={signInWithEmail}>
-            <Text
-            style={styles.btnText}
-            >
-            
-            Sign In
-            { loading && 
-            
-            <ActivityIndicator size={15} /> }
-            </Text>
-        </Pressable>
-      </View>
-      <View style={styles.verticallySpaced}>
-        <Pressable 
-        style={[styles.btn, { backgroundColor: "red" }]}
-        disabled={loading}
-        onPress={signUpWithEmail}>
-            <Text
-            style={styles.btnText}
-            >
-              Sign Up
+        <View style={styles.verticallySpaced}>
+          <TextInput
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={!showPassword}
+            placeholder="Password"
+            style={[styles.input]}
+            selectionColor={'gray'}
+            autoCapitalize={'none'}
+          />
+          <View
+          style={styles.flex}>
+          <Checkbox
+            value={showPassword}
+            onValueChange={setShowPassword}
+            color={showPassword ? '#4630EB' : undefined}
+          />
+          <Text>Show Password</Text>
+          </View>
+          <Text
+          style={{ fontSize: 16 }}
+          >By signing up you agree to our <Text style={{ color: "blue", fontWeight: "500" }}>Terms of Service</Text> and <Text style={{ color: "blue", fontWeight: "500" }} >Privacy Policy</Text> </Text>
+        </View>
+        <View style={[styles.verticallySpaced, styles.mt20]}>
+          <Pressable
+          style={[styles.btn]}
+          disabled={loading}
+          onPress={signInWithEmail}>
+              <Text
+              style={styles.btnText}
+              >
+              
+              Sign In
               { loading && 
               
               <ActivityIndicator size={15} /> }
-            </Text>
-        </Pressable>
+              </Text>
+          </Pressable>
+        </View>
+        <View style={styles.verticallySpaced}>
+          <Pressable 
+          style={[styles.btn, { backgroundColor: "red" }]}
+          disabled={loading}
+          onPress={signUpWithEmail}>
+              <Text
+              style={styles.btnText}
+              >
+                Sign Up
+                { loading && 
+                
+                <ActivityIndicator size={15} /> }
+              </Text>
+          </Pressable>
+        </View>
+        </View>
       </View>
-    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 35,
-    padding: 12,
+    backgroundColor: "#000814",
+  },
+  form: {
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    backgroundColor: "white",
+    padding: 20,
+  },
+  header: {
+    paddingVertical: 60,
+    paddingHorizontal: 40,
+    backgroundColor: "#000814",
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
   },
   verticallySpaced: {
     paddingTop: 4,
@@ -158,9 +176,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   description: {
-    color: "gray",
+    color: "white",
     fontSize: 16,
-    fontWeight: '400'
+    fontWeight: '400',
+    textAlign: "center",
   },
   flex: {
     alignSelf: "flex-start",
