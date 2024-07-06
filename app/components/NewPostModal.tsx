@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import { supabase } from '../lib/supabase';
 import { Session } from '@supabase/supabase-js';
+import Toast from 'react-native-root-toast';
 
 type postModalProps = {
     visible: boolean,
@@ -38,7 +39,18 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
             console.log(error);
             Alert.alert(error.message);
         }
-    
+        
+        hideModal()
+
+        // Add a Toast on screen.
+        let toast = Toast.show('Post successfully created', {
+        duration: Toast.durations.LONG,
+        });
+
+// You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+setTimeout(function hideToast() {
+  Toast.hide(toast);
+}, 500);
     }
 
     return (

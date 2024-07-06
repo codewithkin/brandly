@@ -120,7 +120,9 @@ export default function TabOneScreen() {
       />
 
 
-      <PostActions />
+      <PostActions 
+      showModal={showModal}
+      />
     </View>
   );
 }

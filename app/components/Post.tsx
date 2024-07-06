@@ -24,11 +24,7 @@ export default function PostCard (data: postData) {
         >
             <Card.Content>
                 <View
-                style={{
-                    flexDirection: "row",
-                    gap: 3,
-                    alignItems: "center",
-                }}
+                style={[styles.flexLg, {gap: 3}]}
                 >
                     <Avatar.Text
                     size={40}
@@ -41,26 +37,38 @@ export default function PostCard (data: postData) {
                 <Paragraph style={{ color: "black" }}>{data.data.content}</Paragraph>
             </Card.Content>
             <Card.Actions>
-                <Button
-                style={styles.btn}
-                >
-                    <FontAwesome6 name="heart" size={20} color="black" />
-                </Button>
-                <Button
-                style={styles.btn}
-                >
-                    <Ionicons name="chatbox-outline" size={20} color="black" />
-                </Button>
-                <Button
-                style={styles.btn}
-                >
-                    <AntDesign name="sharealt" size={20} color="black" />
-                </Button>
-                <Button
-                style={styles.btn}
-                >
-                    <EvilIcons name="image" size={28} color="black" />
-                </Button>
+                <View style={styles.btwn}>
+                    <View style={[ styles.flexLg ]}>
+                        <Button
+                        style={[ styles.btn, styles.flex ]}
+                        >
+                            <FontAwesome6 name="heart" size={15} color="black" />
+                            <Text style={styles.stats}>10</Text>
+                        </Button>
+                        <Button
+                        style={[ styles.btn, styles.flex ]}
+                        >
+                            <Ionicons name="chatbox-outline" size={15} color="black" />
+                            <Text style={styles.stats}>10</Text>
+                        </Button>
+                        <Button
+                        style={[ styles.btn, styles.flex ]}
+                        >
+                            <AntDesign name="sharealt" size={15} color="black" />
+                            <Text style={styles.stats}>10</Text>
+                        </Button>
+                    </View>
+
+                    <View style={[ styles.btn, styles.flex ]}>
+                        <Button
+                            style={[ styles.btn, styles.flex ]}
+                        >
+                            <EvilIcons name="image" size={28} color="black" />
+                            <Text style={styles.stats}>10</Text>
+                        </Button>
+                    </View>
+                </View>
+                
             </Card.Actions>
         </Card>
     )
@@ -70,5 +78,25 @@ const styles = StyleSheet.create({
     btn: {
         backgroundColor: "transparent",
         borderColor: "transparent"
-    }
+    },
+    flexLg: {
+        flexDirection: "row",
+        gap: 8,
+        alignItems: "center",
+    },
+    flex: {
+        flexDirection: "row",
+        gap: 2,
+        alignItems: "center",
+    },
+    btwn: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    stats: {
+        fontSize: 12,
+        fontWeight: "500",
+        color: "black"
+    },
 });

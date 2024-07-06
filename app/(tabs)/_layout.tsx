@@ -1,20 +1,8 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { View } from 'react-native';
+import { Tabs } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PaperProvider } from "react-native-paper";
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
 
 export default function TabLayout() {
 
@@ -56,18 +44,9 @@ export default function TabLayout() {
         options={{
           title: 'Discover',
           headerShown: false,
+          tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
             <SimpleLineIcons name="globe" size={24} color="darkgray" />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="AI"
-        options={{
-          title: 'AI',
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="robot-happy-outline" size={24} color="darkgray" />
           ),
         }}
       />

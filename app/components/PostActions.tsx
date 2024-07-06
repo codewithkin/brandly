@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { FAB, Portal,  } from 'react-native-paper';
 
-const PostActions = () => {
+type groupProps = {
+  showModal: () => void
+}
+
+const PostActions = ({showModal}: groupProps) => {
   const [state, setState] = React.useState({ open: false });
-
   const onStateChange = ({ open }) => setState({ open });
-
   const { open } = state;
 
   return (
@@ -13,24 +15,28 @@ const PostActions = () => {
         <FAB.Group
           open={open}
           visible
-          label="New Post"
+          style={{
+            position: "absolute",
+            bottom: 50,
+            right: 20,
+          }}
+          label={ open ? 'Choose an option' : 'New Post' }
           icon={open ? 'calendar-today' : 'plus'}
           actions={[
-            { icon: 'plus', onPress: () => console.log('Pressed add') },
+            { 
+              icon: 'image',
+              label: "Image",
+              onPress: () => console.log('Pressed add'),
+            },
             {
-              icon: 'star',
-              label: 'Star',
+              icon: 'video',
+              label: 'Video',
               onPress: () => console.log('Pressed star'),
             },
             {
-              icon: 'email',
-              label: 'Email',
-              onPress: () => console.log('Pressed email'),
-            },
-            {
-              icon: 'bell',
-              label: 'Remind',
-              onPress: () => console.log('Pressed notifications'),
+              icon: 'card-text-outline',
+              label: 'Text',
+              onPress: () => showModal(),
             },
           ]}
           onStateChange={onStateChange}
