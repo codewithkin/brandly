@@ -1,4 +1,4 @@
-import { Modal, Portal, Text, Button, TextInput } from 'react-native-paper';
+import { Modal, Portal, Text, Button, TextInput, ActivityIndicator } from 'react-native-paper';
 import { View, StyleSheet, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import { supabase } from '../lib/supabase';
@@ -31,28 +31,35 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
       }, [])
 
     async function createNewPost() {
-        const { error } = await supabase
-        .from('posts')
-        .insert({ profile: {username: session?.user.email, profileImage: session?.user.email }, content })
-    
-        if(error) {
-            console.log(error);
-            Alert.alert(error.message);
-        }
+        try {
+            setLoading(true);
+            const { error } = await supabase
+            .from('posts')
+            .insert({ profile: {username: session?.user.email, profileImage: session?.user.email }, content })
         
-        hideModal()
+            if(error) {
+                console.log(error);
+                Alert.alert(error.message);
+            }
+            
+            hideModal()
 
-        // Add a Toast on screen.
-        let toast = Toast.show('Post successfully created', {
-            duration: Toast.durations.LONG,
-            textColor: "white",
-            backgroundColor: "#132A13"
-        });
+            // Add a Toast on screen.
+            let toast = Toast.show('Post successfully created', {
+                duration: Toast.durations.LONG,
+                textColor: "white",
+                backgroundColor: "#132A13"
+            });
 
-        // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-        setTimeout(function hideToast() {
-            Toast.hide(toast);
-        }, 2500);
+            // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+            setTimeout(function hideToast() {
+                Toast.hide(toast);
+            }, 2500);
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -67,10 +74,11 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
                         disabled={loading}
                         multiline={true}
                         textColor="#9c89b8"
+                        maxLength={200}
                         label="New Post"
                         value={content}
                         onChangeText={content => setContent(content)}
-                        style={{ backgroundColor: "white" }}
+                        style={{ backgroundColor: "white", minHeight: 100 }}
                     />
                 </View>
 
@@ -89,8 +97,17 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
                         buttonColor="red"
                         textColor='white'
                         onPress={() => createNewPost() }
+                        style={{ justifyContent: "center", alignItems: "center", gap: 10 }}
                     >
                         Post
+                        {
+                            loading &&
+                            <ActivityIndicator
+                            animating={loading}
+                            color="white"
+                            size={13}
+                            />
+                        }
                     </Button>
                 </View>
             </Modal>
