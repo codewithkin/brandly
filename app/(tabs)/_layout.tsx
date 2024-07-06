@@ -3,11 +3,14 @@ import { Feather } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { PaperProvider } from "react-native-paper";
+import { RootSiblingParent } from 'react-native-root-siblings';
+
 
 export default function TabLayout() {
 
   return (
     <PaperProvider>
+      <RootSiblingParent>
     <Tabs
     >
       <Tabs.Screen
@@ -51,6 +54,8 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </RootSiblingParent>
+
     </PaperProvider>
   );
 }

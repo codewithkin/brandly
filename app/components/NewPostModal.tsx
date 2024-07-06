@@ -44,13 +44,15 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
 
         // Add a Toast on screen.
         let toast = Toast.show('Post successfully created', {
-        duration: Toast.durations.LONG,
+            duration: Toast.durations.LONG,
+            textColor: "white",
+            backgroundColor: "#132A13"
         });
 
-// You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
-setTimeout(function hideToast() {
-  Toast.hide(toast);
-}, 500);
+        // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+        setTimeout(function hideToast() {
+            Toast.hide(toast);
+        }, 2500);
     }
 
     return (
