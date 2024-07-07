@@ -64,7 +64,7 @@ export default async function sharePost (id: number) {
         if(error) {
             console.log(error)
         }
-
-        sharePostText(id);
     }
+
+    sharePostText(id);
 }

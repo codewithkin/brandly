@@ -5,6 +5,7 @@ import usePostDetailsStore from "../stores/postDetailsStore";
 import likePost, { checkLiked } from "../utils/Posts/likePost";
 import sharePost from "../utils/Posts/sharePost";
 import { useEffect, useState } from "react";
+import { User } from "@supabase/supabase-js";
 
 export type postData = {
     profile: {
@@ -12,7 +13,11 @@ export type postData = {
         profileImage: undefined | null | String,
     },
     content: String,
-    id: number
+    id: number,
+    likes: Array<User>,
+    bookmarks: Array<User>,
+    comments: Array<User>,
+    shares: Array<User>,
 }
 
 export default function PostCard(data: postData) {
