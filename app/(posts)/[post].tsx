@@ -149,7 +149,6 @@ export default function PostCard () {
                 <Button
                     buttonColor="purple"
                     textColor="white"
-                    style={{width: 90}}
                     disabled={loading}
                     onPress={saveNewComment}
                 >
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
         
     },
     seperator: {
-        height: 10,
+        height: 15,
     },
     flexLg: {
         flexDirection: "row",
