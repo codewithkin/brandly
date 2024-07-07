@@ -17,7 +17,6 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          headerShown: false,
           tabBarShowLabel: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" size={24} color="darkgray" />

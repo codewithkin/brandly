@@ -1,13 +1,14 @@
 import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import PostCard from "../components/Post";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { supabase } from "../lib/supabase";
 
 export default function Posts () {
     const [posts, setPosts] = useState<any[]|null>([]);
-
-    useEffect(() => {
-        const getPosts = async () => {
+    const [isFetching, setIsFetching] = useState(false);
+    const refresh = async () => {
+        try {
+            setIsFetching(true)
             // Get from supabase
             const { data, error } = await supabase
             .from('posts')
@@ -20,9 +21,15 @@ export default function Posts () {
             // Update the state
             setPosts(data);
             console.log(data)
+        } catch (e) {
+            console.log(e)
+        } finally {
+            setIsFetching(false);
         }
+    }
 
-        getPosts()
+    useEffect(() => {
+        refresh()
     }, [])
 
     return (
@@ -33,12 +40,16 @@ export default function Posts () {
             style={styles.title}
             >Latest Posts</Text>
 
+        <Suspense fallback={<Text>Loading</Text>}>
             <FlatList
                 data={posts}
+                onRefresh={refresh}
+                refreshing={isFetching}
                 renderItem={({item}) => <PostCard data={item}/>}
                 ItemSeparatorComponent={() => <View style={styles.seperator}></View>}
                 style={{ padding: 10 }}
             />
+        </Suspense>
         </View>
     )
 }

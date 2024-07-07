@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Avatar, Button, Paragraph, Card } from "react-native-paper";
-import { FontAwesome6, Ionicons, AntDesign, EvilIcons } from '@expo/vector-icons';
-import { Link } from "expo-router";
 import { useRouter } from "expo-router";
 import usePostDetailsStore from "../stores/postDetailsStore";
+import likePost, { checkLiked } from "../utils/Posts/likePost";
+import sharePost from "../utils/Posts/sharePost";
+import { useEffect, useState } from "react";
 
 export type postData = {
     profile: {
@@ -15,6 +16,7 @@ export type postData = {
 }
 
 export default function PostCard(data: postData) {
+    const [liked, setLiked] = useState(false);
     const post = data.data;
     // Update functions
     const update = usePostDetailsStore(state => state.update);
@@ -27,6 +29,18 @@ export default function PostCard(data: postData) {
         // Redirect to the details page
         router.push({ pathname: `(posts)/${post.id}`});
     };
+
+    useEffect(() => {
+        const checkIfLiked = async () => {
+            const isPostLiked = await checkLiked(post.id);
+
+            if(isPostLiked) {
+                setLiked(true)
+            }
+        }
+
+        checkIfLiked();
+    })
 
     return (
         <Card elevation={3} style={{ backgroundColor: "white" }}>
@@ -45,23 +59,30 @@ export default function PostCard(data: postData) {
             <Card.Actions>
                 <View style={styles.btwn}>
                     <View style={[styles.flexLg]}>
-                        <Button style={[styles.btn, styles.flex]}>
-                            <FontAwesome6 name="heart" size={15} color="black" />
-                            <Text style={styles.stats}>{post.likes.length}</Text>
+                        <Button 
+                        icon={liked ? "cards-heart" : "cards-heart-outline"}
+                        textColor={liked && "red"}
+                        onPress={() => likePost(post.id)}
+                        style={[styles.btn, styles.flex]}>
+                            <Text>{post.likes.length}</Text>
                         </Button>
-                        <Button onPress={() => getPostDetails(post)} style={[styles.btn, styles.flex]}>
-                            <Ionicons name="chatbox-outline" size={15} color="black" />
-                            <Text style={styles.stats}>{post.comments.length}</Text>
+                        <Button 
+                        icon="chat"
+                        onPress={() => getPostDetails(post)} style={[styles.btn, styles.flex]}>
+                            <Text>{post.comments.length}</Text>
                         </Button>
-                        <Button style={[styles.btn, styles.flex]}>
-                            <AntDesign name="sharealt" size={15} color="black" />
-                            <Text style={styles.stats}>{post.shares.length}</Text>
+                        <Button 
+                        icon="share-variant-outline"
+                        onPress={() => sharePost(post.id)}
+                        style={[styles.btn, styles.flex]}>
+                            <Text>{post.shares.length}</Text>
                         </Button>
                     </View>
                     <View style={[styles.btn, styles.flex]}>
-                        <Button style={[styles.btn, styles.flex]}>
-                            <EvilIcons name="image" size={18} color="black" />
-                            <Text style={styles.stats}>{post.bookmarks.length}</Text>
+                        <Button 
+                        icon="image"
+                        style={[styles.btn, styles.flex]}>
+                            <Text>{post.bookmarks.length}</Text>
                         </Button>
                     </View>
                 </View>
@@ -72,8 +93,7 @@ export default function PostCard(data: postData) {
 
 const styles = StyleSheet.create({
     btn: {
-        backgroundColor: "transparent",
-        borderColor: "transparent"
+        
     },
     flexLg: {
         flexDirection: "row",
@@ -82,7 +102,7 @@ const styles = StyleSheet.create({
     },
     flex: {
         flexDirection: "row",
-        gap: 2,
+        gap: 50,
         alignItems: "center",
     },
     btwn: {
@@ -91,8 +111,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     stats: {
-        fontSize: 12,
-        fontWeight: "300",
+        fontSize: 14,
+        fontWeight: "400",
         color: "black"
     },
 });
