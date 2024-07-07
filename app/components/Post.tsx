@@ -15,6 +15,7 @@ export type postData = {
 }
 
 export default function PostCard(data: postData) {
+    const post = data.data;
     // Update functions
     const update = usePostDetailsStore(state => state.update);
 
@@ -33,34 +34,34 @@ export default function PostCard(data: postData) {
                     <View style={[styles.flexLg, { gap: 3 }]}>
                         <Avatar.Text
                             size={40}
-                            label={`${data.data.profile.username[0]}${data.data.profile.username[1]}`}
+                            label={`${post.profile.username[0]}${post.profile.username[1]}`}
                         />
                         <View>
-                            <Text style={{ fontWeight: "bold" }}>{data.data.profile.username}</Text>
+                            <Text style={{ fontWeight: "bold" }}>{post.profile.username}</Text>
                         </View>
                     </View>
-                    <Paragraph style={{ color: "black" }}>{data.data.content}</Paragraph>
+                    <Paragraph style={{ color: "black" }}>{post.content}</Paragraph>
             </Card.Content>
             <Card.Actions>
                 <View style={styles.btwn}>
                     <View style={[styles.flexLg]}>
                         <Button style={[styles.btn, styles.flex]}>
                             <FontAwesome6 name="heart" size={15} color="black" />
-                            <Text style={styles.stats}>10</Text>
+                            <Text style={styles.stats}>{post.likes.length}</Text>
                         </Button>
-                        <Button onPress={() => getPostDetails(data.data)} style={[styles.btn, styles.flex]}>
+                        <Button onPress={() => getPostDetails(post)} style={[styles.btn, styles.flex]}>
                             <Ionicons name="chatbox-outline" size={15} color="black" />
-                            <Text style={styles.stats}>10</Text>
+                            <Text style={styles.stats}>{post.comments.length}</Text>
                         </Button>
                         <Button style={[styles.btn, styles.flex]}>
                             <AntDesign name="sharealt" size={15} color="black" />
-                            <Text style={styles.stats}>10</Text>
+                            <Text style={styles.stats}>{post.shares.length}</Text>
                         </Button>
                     </View>
                     <View style={[styles.btn, styles.flex]}>
                         <Button style={[styles.btn, styles.flex]}>
                             <EvilIcons name="image" size={18} color="black" />
-                            <Text style={styles.stats}>10</Text>
+                            <Text style={styles.stats}>{post.bookmarks.length}</Text>
                         </Button>
                     </View>
                 </View>

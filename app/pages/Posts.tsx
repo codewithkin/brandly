@@ -1,41 +1,29 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 import PostCard from "../components/Post";
+import { useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
 export default function Posts () {
-    const posts = [
-        {
-        profile: {
-            username: "kinzinzombe07",
-            profileImage: "Howdie!",
-        },
-        content: "Hey there y'all, Kin Here. Hope you're having a great time here on here Brandly! Follow me and let's connect",
-        id: 4
-    },
-    {
-        profile: {
-            username: "kinzinzombe07",
-            profileImage: "Howdie!",
-        },
-        content: "Hey there y'all, Kin Here. Hope you're having a great time here on here Brandly! Follow me and let's connect",
-        id: 2
-    },
-    {
-        profile: {
-            username: "kinzinzombe07",
-            profileImage: "Howdie!",
-        },
-        content: "Hey there y'all, Kin Here. Hope you're having a great time here on here Brandly! Follow me and let's connect",
-        id: 3
-    },
-    {
-        profile: {
-            username: "kinzinzombe07",
-            profileImage: "Howdie!",
-        },
-        content: "Hey there y'all, Kin Here. Hope you're having a great time here on here Brandly! Follow me and let's connect",
-        id: 7
-    }
-    ]
+    const [posts, setPosts] = useState<any[]|null>([]);
+
+    useEffect(() => {
+        const getPosts = async () => {
+            // Get from supabase
+            const { data, error } = await supabase
+            .from('posts')
+            .select()
+
+            if(error) {
+                Alert.alert(error.message);
+            }
+        
+            // Update the state
+            setPosts(data);
+            console.log(data)
+        }
+
+        getPosts()
+    }, [])
 
     return (
         <View

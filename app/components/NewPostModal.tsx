@@ -41,7 +41,8 @@ export default function NewPostModal ({ visible, hideModal }: postModalProps) {
                 console.log(error);
                 Alert.alert(error.message);
             }
-            
+
+            setContent("");
             hideModal()
 
             // Add a Toast on screen.
