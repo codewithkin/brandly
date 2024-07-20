@@ -7,7 +7,7 @@ type groupProps = {
 
 const PostActions = ({showModal}: groupProps) => {
   const [state, setState] = React.useState({ open: false });
-  const onStateChange = ({ open }) => setState({ open });
+  const onStateChange = ({ open }: {open: boolean}) => setState({ open });
   const { open } = state;
 
   return (

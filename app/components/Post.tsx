@@ -10,21 +10,32 @@ import { User } from "@supabase/supabase-js";
 export type postData = {
     profile: {
         username: String,
-        profileImage: undefined | null | String,
+        profileImage: string,
     },
+    shares: Array<User>,
+    updated_at: string,
     content: String,
     id: number,
     likes: Array<User>,
     bookmarks: Array<User>,
-    comments: Array<User>,
-    shares: Array<User>,
+    comments: Array<{ content: string, user: Array<User> }>,
+    created_at: string,
+    images: Array<string>,
 }
 
-export default function PostCard(data: postData) {
+type listData = {
+    data: postData
+}
+
+export default function PostCard(listData: listData) {
     const [liked, setLiked] = useState(false);
-    const post = data.data;
+
+    // Get the post data
+    const post = listData.data;
+
     // Update functions
     const update = usePostDetailsStore(state => state.update);
+    const txtColor: string = liked ? "red" : "black";
 
     const router = useRouter();
     const getPostDetails = (post: postData) => {
@@ -66,7 +77,7 @@ export default function PostCard(data: postData) {
                     <View style={[styles.flexLg]}>
                         <Button 
                         icon={liked ? "cards-heart" : "cards-heart-outline"}
-                        textColor={liked && "red"}
+                        textColor={txtColor}
                         onPress={() => likePost(post.id)}
                         style={[styles.btn, styles.flex]}>
                             <Text>{post.likes.length}</Text>

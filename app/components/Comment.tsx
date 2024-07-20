@@ -1,11 +1,14 @@
-import { User } from "@supabase/supabase-js";
 import { View, StyleSheet } from "react-native";
 import { Text, Avatar, Card } from "react-native-paper";
 import { postData } from "./Post";
+import { User } from "@supabase/supabase-js";
 
-export type listData = {
+type listData = {
     data: {
-        data: postData
+        content: string,
+        user: {
+            email: string,
+        },
     }
 }
 
