@@ -1,12 +1,14 @@
 import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
-import PostCard from "../components/Post";
+import PostCard, { postData } from "../components/Post";
 import { useEffect, useState, Suspense } from "react";
 import { supabase } from "../lib/supabase";
 
 export default function Posts () {
-    const [posts, setPosts] = useState<any[]|null>([]);
+    const [posts, setPosts] = useState<Array<postData>>([]);
     const [isFetching, setIsFetching] = useState(false);
-    const refresh = async () => {
+
+    // Get the latest posts
+    const fetchData = async () => {
         try {
             setIsFetching(true)
             // Get from supabase
@@ -20,7 +22,7 @@ export default function Posts () {
         
             // Update the state
             setPosts(data);
-            console.log(data)
+            console.log("Posts: ", data)
         } catch (e) {
             console.log(e)
         } finally {
@@ -29,7 +31,7 @@ export default function Posts () {
     }
 
     useEffect(() => {
-        refresh()
+        fetchData()
     }, [])
 
     return (
@@ -41,14 +43,18 @@ export default function Posts () {
             >Latest Posts</Text>
 
         <Suspense fallback={<Text>Loading</Text>}>
-            <FlatList
-                data={posts}
-                onRefresh={refresh}
-                refreshing={isFetching}
-                renderItem={({item}) => <PostCard data={item}/>}
-                ItemSeparatorComponent={() => <View style={styles.seperator}></View>}
-                style={{ padding: 10 }}
-            />
+            {
+                posts.length > 0 ?
+                <FlatList
+                    data={posts}
+                    onRefresh={fetchData}
+                    refreshing={isFetching}
+                    renderItem={({item}) => <PostCard data={item}/>}
+                    ItemSeparatorComponent={() => <View style={styles.seperator}></View>}
+                    style={{ padding: 10 }}
+                /> :
+                <Text style={styles.noposts}>No posts Just yet</Text>
+            }  
         </Suspense>
         </View>
     )
@@ -57,6 +63,12 @@ export default function Posts () {
 const styles = StyleSheet.create({
     container: {
 
+    },
+    noposts: {
+        fontSize: 22,
+        fontWeight: "500",
+        textAlign: "center",
+        marginTop: 20,
     },
     title: {
         fontSize: 24,

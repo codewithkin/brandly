@@ -1,5 +1,6 @@
 import { supabase } from "@/app/lib/supabase";
 import { getUser } from "./sharePost";
+import { User } from "@supabase/supabase-js";
 
 const newComment = async (id: number, content: string) => {
     const obj = {content};

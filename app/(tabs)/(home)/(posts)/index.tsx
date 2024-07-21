@@ -1,16 +1,10 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { Fontisto } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import { useState } from "react";
-import { FontAwesome6 } from '@expo/vector-icons';
-import { LinearGradient } from "expo-linear-gradient";
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { FAB } from "react-native-paper";
-import NewPostModal from "../components/NewPostModal";
-import Posts from "../pages/Posts";
-import PostActions from "../components/PostActions";
-import { Tabs } from "expo-router";
-
+import NewPostModal from "../../../components/NewPostModal";
+import Posts from "../../../pages/Posts";
+import PostActions from "../../../components/PostActions";
+import { Stack } from "expo-router";
+import { MaterialTopTabs } from './_layout';
 
 export default function TabOneScreen() {
   const [fill, setFill] = useState(0);
@@ -21,12 +15,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Tabs.Screen
-        options={{
-          headerTitle: "Brandly"
-        }}
-      />
-       
+      
       <Posts />
       <NewPostModal 
         hideModal={hideModal} 

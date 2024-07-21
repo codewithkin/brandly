@@ -37,7 +37,10 @@ export default function PostCard(listData: listData) {
     const update = usePostDetailsStore(state => state.update);
     const txtColor: string = liked ? "red" : "black";
 
+    // For redirects
     const router = useRouter();
+
+    // Get the post's metadata
     const getPostDetails = (post: postData) => {
         // Update the zustand store
         update(post);
@@ -47,14 +50,19 @@ export default function PostCard(listData: listData) {
     };
 
     useEffect(() => {
+        // Check if the current post is liked
         const checkIfLiked = async () => {
             const isPostLiked = await checkLiked(post.id);
 
+            // If the post is liked...
             if(isPostLiked) {
+                //.....update tbe liked variable
+                // ....display the red heart icon
                 setLiked(true)
             }
         }
 
+        // Call the function
         checkIfLiked();
     })
 
